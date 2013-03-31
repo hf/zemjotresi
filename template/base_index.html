@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type="text/javascript">
+    function highlight_today() {
+        new Effect.Highlight('e_today', {
+          startcolor: '#5d5d5d',
+          endcolor: '#1f1d17',
+          restorecolor: true,
+          {% if highlight_today %}
+          // dynamically generated
+          delay: 0.7
+          {% endif %}
+          });
+        return false;
+      }
+  </script>
+{% endblock javascript %}
+
+{% block body_tag %}
+  {% if highlight_today %}
+  <body onload="highlight_today();">
+  {% else %}
+  <body>
+  {% endif %}
+{% endblock body_tag %}
+
+{% block header_links %}
+  <a href="#" onclick="highlight_today();"><span class="explain" id="today">денес</span></a>
+  <a href="/vcera"><span class="explain" id="yesterday">вчера</span></a>
+  <a href="/predtoa"><span class="explain" id="before">предтоа</span></a>
+  {% if entries_special_count %}
+  <span class="explain" id="special">важни</span>
+  {% endif %}
+{% endblock header_links %}
+
+{% block earthquakes_special %}
+  {% if entries_special_count %}
+  <div class="special">
+    {% for entry in entries_special %}
+    <div class="earthquake">
+      <span class="arrow"><a href="/zemjotres/{{ entry.key }}">↠</a></span>
+      <span class="area">{{ entry.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ entry.magnitude }}</span>
+      {% if entry.magnitude|is_warning %}
+      <image class="warning" src="images/warning.png" border="0" />
+      {% endif %}
+      <span class="data">длабочина: <span class="depth">{{ entry.depth|rnd }}km</span></span>
+      <span class="geo">епицентар: <span class="latitude">{{ entry.position.lat }}</span>°N <span class="longitude">{{ entry.position.lon }}</span>°E</a></span>
+      <span class="data">време: <abbr title="{{ today|format_date_macedonian }}">денес</abbr> во {{ entry.time|time_utc1 }}</span>
+      <span class="data"><a href="/zemjotres/{{ entry.key }}">детали</a></span>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+{% endblock earthquakes_special %}
+
+{% block earthquakes_today %}
+  {% if entries_today_count %}
+  <div class="today" id="e_today">
+  {% for entry in entries_today %}
+    <div class="earthquake">
+      <span class="arrow"><a href="/zemjotres/{{ entry.key }}">↠</a></span>
+      <span class="area">{{ entry.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ entry.magnitude }}</span>
+      {% if entry.magnitude|is_warning %}
+      <image class="warning" src="images/warning.png" border="0" />
+      {% endif %}
+      <span class="data">длабочина: <span class="depth">{{ entry.depth|rnd }}km</span></span>
+      <span class="geo">епицентар: <span class="latitude">{{ entry.position.lat }}</span>°N <span class="longitude">{{ entry.position.lon }}</span>°E</a></span>
+      <span class="data">време: <abbr title="{{ today|format_date_macedonian }}">денес</abbr> во {{ entry.time|time_utc1 }}</span>
+      <span class="data"><a href="/zemjotres/{{ entry.key }}">детали</a></span>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+{% endblock earthquakes_today %}
+
+
+{% block earthquakes_yesterday %}
+  {% if entries_yesterday_count %}
+  <div class="yesterday">
+  {% for entry in entries_yesterday %}
+    <div class="earthquake">
+      <span class="arrow"><a href="/zemjotres/{{ entry.key }}">↠</a></span>
+      <span class="area">{{ entry.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ entry.magnitude }}</span>
+      {% if entry.magnitude|is_warning %}
+      <image class="warning" src="images/warning.png" border="0" />
+      {% endif %}
+      <span class="data">длабочина: <span class="depth">{{ entry.depth|rnd }}km</span></span>
+      <span class="geo">епицентар: <span class="latitude">{{ entry.position.lat }}</span>°N <span class="longitude">{{ entry.position.lon }}</span>°E</span>
+      <span class="data">време: <abbr title="{{ yesterday|format_date_macedonian }}">вчера</abbr> во {{ entry.time|time_utc1 }}</span>
+      <span class="data"><a href="/zemjotres/{{ entry.key }}">детали</a></span>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+{% endblock earthquakes_yesterday %}
+
+{% block earthquakes_before %}
+  {% if entries_before %}
+  <div class="before">
+  {% for entry in entries_before %}
+    <div class="earthquake">
+      <span class="arrow"><a href="/zemjotres/{{ entry.key }}">↠</a></span>
+      <span class="area">{{ entry.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ entry.magnitude }}</span>
+      {% if entry.magnitude|is_warning %}
+      <image class="warning" src="images/warning.png" border="0" />
+      {% endif %}
+      <span class="data">длабочина: <span class="depth">{{ entry.depth|rnd }}km</span></span>
+      <span class="geo">епицентар: <span class="latitude">{{ entry.position.lat }}</span>°N <span class="longitude">{{ entry.position.lon }}</span>°E</a></span>
+      <span class="data">време: нa {{ entry.time|format_date_macedonian }} во {{ entry.time|time_utc1 }}</span>
+      <span class="data"><a href="/zemjotres/{{ entry.key }}">детали</a></span>
+    </div>
+  {% endfor %}
+  </div>
+  {% endif %}
+{% endblock earthquakes_before %}
+
+{% block container %}
+  {{ block.super }}
+{% endblock container %}
+

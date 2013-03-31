@@ -1,0 +1,2 @@
+Денес – {{ earthquake.time|time_utc1|format_time_macedonian }}, земјотрес со јачина од {{ earthquake.magnitude }} во {{ earthquake.location }}! {{ short_url }}
+

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="mk">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Земјотреси во Македонија: {{ earthquake.location }} - {{ earthquake.magnitude }}</title>
+    <link rel="stylesheet" href="{{ host_url }}/styles/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{ host_url }}/styles/earthquake.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="icon" type="image/png" href="{{ host_url }}/favicon.png" />
+    <link href="{{ host_url }}/atom" type="application/atom+xml" rel="alternate" title="Atom Feed" />
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ maps_api }}&amp;sensor=false" type="text/javascript"></script>
+    <script type="text/javascript">
+    function initialize() {
+      var map = new GMap2(document.getElementById("map"));
+      map.setCenter(new GLatLng({{ earthquake.latitude }}, {{ earthquake.longitude }}), 10);
+
+      var epicenter = new GMarker(new GLatLng({{ earthquake.latitude }}, {{ earthquake.longitude }}));
+      map.addOverlay(epicenter);
+      map.addControl(new GSmallMapControl());
+      map.setMapType(G_HYBRID_MAP)
+    }
+    </script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+    <div class="header">
+      <h1 style="display: inline;"><a href="{{ host_url }}">Земјотреси:</a><img class="beta" src="{{ host_url }}/images/beta.png" alt="beta" /></h1>
+      <br />
+      <a href="{{ host_url }}/?highlight_today"><span class="explain" id="today">денес</span></a>
+      <a href="{{ host_url }}/vcera"><span class="explain" id="yesterday">вчера</span></a>
+      <a href="{{ host_url }}/predtoa"><span class="explain" id="before">предтоа</span></a>
+    </div>
+
+    <div class="container">
+      <div class="earthquakes">
+        <div class="{{ time_class }}">
+          <div class="earthquake">
+            <span class="arrow">↠</span>
+            <span class="area">{{ earthquake.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ earthquake.magnitude }}</span>
+            {% if earthquake.warning %}
+            <image class="warning" src="{{ host_url }}/images/warning.png" border="0" />
+            {% endif %}
+            <span class="data">длабочина: {{ earthquake.depth }}km</span>
+            <span class="data">магнитуда: {{ earthquake.magnitude }} од вид {{ earthquake.magnitude_type }}</span>
+            <span class="data">епицентар: <a href="{{ earthquake.url_location|escape }}">{{ earthquake.latitude }}°N {{ earthquake.longitude }}°E</a></span>
+            <span class="data">време: на {{ earthquake.date|format_date_macedonian }} во {{ earthquake.time|time_utc1 }}</span>
+            <span class="data"><a href="{{ earthquake.details_url|escape }}">детали&nbsp;(EMSC-CSEM)</a></span>
+          </div>
+          <div class="map" id="map">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span><a href="http://theact1v8.org">the act1v8</a></span>
+      <span><a href="http://www.emsc-csem.org">EMSC-CSEM</a></span>
+      <span><a href="http://github.com/Act1v8/Zemjotresi/tree/master">♥git</a></span>
+      <p>
+        Овие информации се исклучиво неофицијални. Стојан Димитровски (<a href="http://theact1v8.org">the act1v8</a>), <a href="http://google.com">Google</a> ниту <a href="http://www.emsc-csem.org">EMSC-CSEM</a> не земаат одговорност за ажурноста и точноста на податоците презентирани овде.
+      </p>
+    </div>
+  </body>
+</html>
+

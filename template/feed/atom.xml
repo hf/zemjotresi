@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>Земјотреси во Македонија</title>
+  <subtitle>листа на скорешните земјотреси на територијата на Република Македонија</subtitle>
+  <link href="{{ host_url }}" />
+  <link rel="self" href="{{ uri }}" />
+  <id>{{ host_url }}</id>
+  <updated>{{ last_change.time|datetime_utc1|format_rfc3339 }}</updated>
+  <author>
+    <name>EMSC-CSEM</name>
+    <uri>http://emsc-csem.org/</uri>
+  </author>
+  <author>
+    <name>Земјотреси</name>
+    <uri>{{ host_url }}</uri>
+  </author>
+  <generator uri="/" version="1.0">
+    Земјотреси
+  </generator>
+
+  <rights> Earthquake Information © EMSC-CSEM </rights>
+
+  <icon>/favicon.png</icon>
+
+  {% for entry in entries %}
+  <entry>
+    <title>{{ entry.location }} – {{ entry.magnitude }}</title>
+    <id>{{ host_url }}/zemjotres/{{ entry.key|escape }}</id>
+    <updated>{{ entry.time|datetime_utc1|format_rfc3339 }}</updated>
+
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+        време: {{ entry.time|datetime_utc1|format_datetime_macedonian }}
+        <br />
+        епицентар: <a href="{{ entry.url_location|escape }}">{{ entry.position.lat }}°N {{ entry.position.long }}°E</a>
+        <br />
+        магнитуда: {{ entry.magnitude }} од вид {{ entry.magnitude_type }}
+        {% if entry.magnitude|is_warning %}<strong>&#9888;</stong>{% endif %}
+        <br />
+        длабочина: {{ entry.depth|rnd }}km;
+      </div>
+    </content>
+
+    <link rel="alternate" href="{{ host_url }}/zemjotres/{{ entry.key|escape }}" />
+  </entry>
+  {% endfor %}
+
+</feed>
+

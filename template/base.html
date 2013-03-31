@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="mk">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="earthquakes, earthquake, macedonia, list, земјотрес, македонија, земјотреси, act1v8" />
+    <meta name="description" content="Земјотреси е веб апликација која ги прикажува земјотресите кои што се случуваат на територијата на Република Македонија." />
+
+    <title>{% block title %}Земјотреси во Македонија{% endblock %}</title>
+    <link rel="stylesheet" href="{{ host_url }}/styles/style.css" type="text/css" media="screen" charset="utf-8" />
+    {% block styles %}{% endblock %}
+
+    <link rel="icon" type="image/png" href="{{ host_url }}/favicon.png" />
+    {% block atom %}
+    <link href="{{ host_url }}/atom" type="application/atom+xml" rel="alternate" title="Atom Feed" />
+    {% endblock atom %}
+    {% block links %}{% endblock %}
+
+    {% block javascript %}
+    <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+      google.load("prototype", "1.6");
+      google.load("scriptaculous", "1.8.2");
+    </script>
+    {% endblock javascript %}
+
+    {% block custom_head %}{% endblock %}
+  </head>
+
+  {% block body_tag %}
+  <body>
+  {% endblock body_tag %}
+
+    {% block header %}
+    <div class="header">
+      <h1 style="display: inline;"><a href="{{ host_url }}">Земјотреси:</a><img class="beta" src="{{ host_url }}/images/beta.png" alt="beta" /></h1>
+      <br />
+      {% block header_links %}{% endblock %}
+    </div>
+    {% endblock header %}
+
+    <div class="container">
+    {% block container %}
+
+      {% block earthquakes %}
+      <div class="earthquakes">
+        {% block earthquake_collection %}
+        {% endblock earthquake_collection %}
+
+        {% block earthquakes_special %}
+        {% endblock earthquakes_special %}
+
+        {% block earthquakes_today %}
+        {% endblock earthquakes_today %}
+
+        {% block earthquakes_yesterday %}
+        {% endblock earthquakes_yesterday %}
+
+        {% block earthquakes_before %}
+        {% endblock earthquakes_before %}
+      </div>
+      {% endblock earthquakes %}
+
+    {% endblock container %}
+    </div>
+
+    {% block footer %}
+    <div class="footer">
+      <div class="footer menu">
+        <a class="footer menu" href="http://theact1v8.org"><span>the act1v8</span></a>
+        <a class="footer menu" href="http://twitter.com/Zemjotresi"><span>twitter!</span></a>
+        <a class="footer menu" href="http://www.emsc-csem.org"><span>EMSC-CSEM</span></a>
+        <a class="footer menu" href="http://github.com/Act1v8/zemjotresi/tree/master"><span>♥git</span></a>
+      </div>
+      <p>
+      Магнитудата која е обично забележана е онаа по <a href="http://en.wikipedia.org/wiki/Richter_magnitude_scale">Рихтеровата</a> скала (M<small><em>L</em></small>). За точниот вид на магнитуда, видете ги деталите за земјотресот.</p>
+      <p class="important"><strong>Овие информации се исклучиво неофицијални.</strong></p>
+      <p class="important">
+      Стојан Димитровски (<a href="http://theact1v8.org">the act1v8</a>), <a href="http://google.com">Google</a> ниту <a href="http://www.emsc-csem.org">EMSC-CSEM</a> не земаат одговорност за ажурноста и точноста на податоците презентирани овде.
+      </p>
+    </div>
+    {% endblock footer %}
+
+    {% block google_analytics_tracker %}
+    {% if deployed %}
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-9315237-1");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+    {% endif %}
+    {% endblock google_analytics_tracker %}
+  </body>
+</html>
+

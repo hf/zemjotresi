@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ earthquake.location }} - {{ earthquake.magnitude }}: {{ block.super }}
+{% endblock title %}
+
+{% block links %}
+  <link rel="stylesheet" href="{{ host_url }}/styles/earthquake.css" type="text/css" media="screen" charset="utf-8" />
+{% endblock links %}
+
+{% block javascript %}
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ maps_api }}&amp;sensor=false" type="text/javascript"></script>
+  <script type="text/javascript">
+  function initialize() {
+    var map = new GMap2(document.getElementById("map"));
+    map.setCenter(new GLatLng({{ earthquake.position.lat }}, {{ earthquake.position.lon }}), 10);
+    var pinIcon = new GIcon();
+    pinIcon.image = "{{ host_url }}/images/pin.png";
+    pinIcon.iconSize = new GSize(30, 40);
+    pinIcon.shadow = "{{ host_url }}/images/pin-shadow.png";
+    pinIcon.shadowSize = new GSize(30, 40);
+    pinIcon.iconAnchor = new GPoint(9, 35);
+    pinIcon.infoWindowAnchor = new GPoint(8, 1);
+
+    var markerOptions = { icon: pinIcon };
+
+    var epicenter_coordinates = new GLatLng({{ earthquake.position.lat }}, {{ earthquake.position.lon }});
+    var epicenter = new GMarker(epicenter_coordinates, markerOptions);
+    map.addOverlay(epicenter);
+    map.addControl(new GSmallMapControl());
+    map.setMapType(G_HYBRID_MAP)
+  }
+  </script>
+{% endblock javascript %}
+
+{% block body_tag %}
+  <body onload="initialize();" onunload="GUnload();">
+{% endblock body_tag %}
+
+{% block header_links %}
+  <a href="{{ host_url }}/?highlight_today"><span class="explain" id="today">денес</span></a>
+  <a href="{{ host_url }}/vcera"><span class="explain" id="yesterday">вчера</span></a>
+  <a href="{{ host_url }}/predtoa"><span class="explain" id="before">предтоа</span></a>
+  {% if time_class|is_special %}
+  <span class="explain" id="special">важни</span>
+  {% endif %}
+{% endblock header_links %}
+
+{% block earthquake_collection %}
+  <div class="{{ time_class }}">
+    <div class="earthquake">
+      <span class="arrow">↠</span>
+      <span class="area">{{ earthquake.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ earthquake.magnitude }}</span>
+      {% if earthquake.warning %}
+      <image class="warning" src="{{ host_url }}/images/warning.png" border="0" />
+      {% endif %}
+      <span class="data">длабочина: <span class="depth">{{ earthquake.depth }}km</span></span>
+      <span class="data">магнитуда: {{ earthquake.magnitude }} од вид {{ earthquake.magnitude_type }}</span>
+      <span class="geo">епицентар: <span class="latitude">{{ earthquake.position.lat }}</span>°N <span class="longitude">{{ earthquake.position.lon }}</span>°E</span>
+      <span class="data">време: на {{ earthquake.time|format_date_macedonian }} во {{ earthquake.time|time_utc1 }}</span>
+      {% for data in earthquake.extra|split %}
+      <span class="data">{{ data }}</span>
+      {% endfor %}
+      <span class="data"><a href="{{ earthquake.details|escape }}">детали&nbsp;(EMSC-CSEM)</a></span>
+    </div>
+
+    <div class="map" id="map">
+
+    </div>
+  </div>
+{% endblock earthquake_collection %}
+
+{% block container %}
+  {{ block.super }}
+{% endblock container %}
+

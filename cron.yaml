@@ -1,0 +1,5 @@
+cron:
+  - description: update earthquake information
+    url: /update
+    schedule: every 5 minutes
+

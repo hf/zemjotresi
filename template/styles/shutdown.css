@@ -1,0 +1,61 @@
+.explain {
+  margin-right: 15px !important;
+}
+
+.shutdown {
+  width: 600px;
+  margin-left: 10px;
+}
+
+.shutdown sup, .shutdown sup a {
+  color: wheat;
+  font-weight: bold;
+}
+
+.shutdown a {
+  color: #a5a5a5;
+  text-decoration: underline;
+}
+
+.shutdown .heading {
+  margin: 0px 30px 15px auto;
+}
+
+.shutdown h2 {
+  font-size: 30px;
+  letter-spacing: -1px;
+  color: white;
+}
+
+.shutdown .contents {
+  margin-left: 20px;
+  font-size: 0.8em;
+  color: #eee;
+}
+
+.shutdown .contents p {
+  line-height: 1.5em;
+  text-align: justify;
+  margin-bottom: 2em;
+}
+
+.shutdown .date {
+  padding-left: 56px;
+  color: gray;
+  font-size: 10px;
+}
+
+.shutdown .author {
+  font-weight: bold;
+}
+
+.shutdown .footnotes {
+  border-top: 1px dashed #333;
+  font-size: 0.84em;
+  padding: 15px;
+}
+
+.shutdown .footnotes p {
+  margin-bottom: 7px;
+}
+

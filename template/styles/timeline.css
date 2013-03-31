@@ -1,0 +1,23 @@
+.navigation {
+  margin: 40px auto 20px 20px;
+  width: inherit;
+}
+
+.navigation ul {
+  list-style: none;
+}
+
+.navigation ul li {
+  display: inline;
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+
+.navigation ul a, .navigation ul a:visited {
+  margin: auto 15px;
+  text-decoration: none;
+  color: #625c33;
+}
+

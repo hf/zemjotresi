@@ -1,0 +1,2 @@
+Земјотрес во {{ earthquake.location }} со јачина од {{ earthquake.magnitude }}! {{ short_url }}
+

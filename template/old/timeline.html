@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="mk">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>{{ time_class_cyr }}: Земјотреси во Македонија</title>
+
+    <link rel="stylesheet" href="{{ host_url }}/styles/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{ host_url }}/styles/timeline.css" type="text/css" media="screen" charset="utf-8" />
+
+    <link rel="icon" type="image/png" href="{{ host_url }}/favicon.png" />
+    <link href="{{ host_url }}/atom" type="application/atom+xml" rel="alternate" title="Atom Feed" />
+
+    <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+      google.load("prototype", "1.6");
+      google.load("scriptaculous", "1.8.2");
+
+      function highlight_{{ time_class }}() {
+        new Effect.Highlight('e_{{ time_class }}', { startcolor: '#5d5d5d', endcolor: '#1f1d17', restorecolor: true });
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <div class="header">
+      <h1 style="display: inline;"><a href="{{ host_url }}">Земјотреси:</a><img class="beta" src="{{ host_url }}/images/beta.png" alt="beta" /></h1>
+      <br />
+      <a href="{{ host_url }}/?highlight_today"><span class="explain" id="today">денес</span></a>
+      {% if simpletime %}
+      <a href="#" onclick="highlight_{{ time_class }}();"><span class="explain" id="yesterday">вчера</span></a>
+      <a href="{{ host_url }}/predtoa"><span class="explain" id="before">предтоа</span></a>
+      {% else %}
+      <a href="{{ host_url }}/vcera"><span class="explain" id="yesterday">вчера</span></a>
+      <a href="#" onclick="highlight_{{ time_class }}();"><span class="explain" id="before">предтоа</span></a>
+      {% endif %}
+    </div>
+
+    <div class="container">
+      <div class="earthquakes">
+        <div class="{{ time_class }}" id="e_{{ time_class }}">
+        {% if entries_count %}
+          {% for entry in entries %}
+          {% if entry.magnitude %}
+            <div class="earthquake">
+              <span class="arrow"><a href="/zemjotres/{{ entry.key }}">↠</a></span>
+              <span class="area">{{ entry.location }}</span>&nbsp;–&nbsp;<span class="magnitude">{{ entry.magnitude }}</span>
+              {% if entry.warning %}
+              <image class="warning" src="images/warning.png" border="0" />
+              {% endif %}
+              <span class="data">длабочина: {{ entry.depth|rnd }}km</span>
+              <span class="data">епицентар: <a href="{{ entry.url_location|escape }}">{{ entry.latitude }}°N {{ entry.longitude }}°E</a></span>
+              {% if simpletime %}
+              <span class="data">време: <abbr title="entry.date|format_date_macedonian">вчера</abbr> во {{ entry.time|time_utc1 }}</span>
+              {% else %}
+              <span class="data">време: на {{ entry.date|format_date_macedonian }} во {{ entry.time|time_utc1 }}</span>
+              {% endif %}
+              <span class="data"><a href="/zemjotres/{{ entry.key }}">детали</a></span>
+            </div>
+            {% endif %}
+          {% endfor %}
+          {% if next_page|not_none or prev_page|not_none %}
+          <div class="navigation">
+            <ul>
+              {% if prev_page|not_none %}
+              <a href="?page={{ prev_page }}&per_page={{ per_page }}"><li id="previous">⤺&nbsp;предходно</li></a>
+              {% endif %}
+              {% if next_page|not_none %}
+              <a href="?page={{ next_page }}&per_page={{ per_page }}"><li id="next">следно&nbsp;⤻</li></a>
+              {% endif %}
+            </ul>
+          </div>
+          {% endif %}
+        {% else %}
+          <div class="no earthquakes">
+            {% if simpletime %}
+            <h2>Нема регистрирани земјотреси за <abbr title="{{ yesterday|format_date_macedonian }}">вчера</abbr>!</h2>
+            <p class="smiley face">-(^.^)-</p>
+            {% else %}
+            <h2>Нема регистрирани земјотреси за минатото после <abbr title="{{ yesterday|format_date_macedonian }}">вчера</abbr>!</h2>
+            <p class="smiley face">_(Q.Q)_</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span><a href="http://theact1v8.org">the act1v8</a></span>
+      <span><a href="http://www.emsc-csem.org">EMSC-CSEM</a></span>
+      <span><a href="http://github.com/Act1v8/Zemjotresi/tree/master">♥git</a></span>
+      <p>
+        Овие информации се исклучиво неофицијални. Стојан Димитровски (<a href="http://theact1v8.org">the act1v8</a>), <a href="http://google.com">Google</a> ниту <a href="http://www.emsc-csem.org">EMSC-CSEM</a> не земаат одговорност за ажурноста и точноста на податоците презентирани овде.
+      </p>
+    </div>
+  </body>
+</html>
+
